@@ -1,33 +1,38 @@
-name: Build PDFs
+name: Build LaTeX PDF
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main  # Запускать только для ветки main
+  pull_request:
+    branches:
+      - main  # Также запускать для PR в main
 
 jobs:
-  build-latex:
+  build:
+    name: Build PDFs
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
+      # Шаг 1: Клонируем репозиторий
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
+      # Шаг 2: Устанавливаем Docker (если ещё не установлен)
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Шаг 3: Собираем Docker-образ
       - name: Build Docker image
-        run: docker build -t my-latex-builder ./docker
+        run: docker build -t latex-builder -f docker/Dockerfile .
 
-      - name: Run Docker container
-        # Примонтируем текущую папку (github.workspace) в контейнер,
-        # чтобы итоговые PDF сохранились на хосте, а не только внутри контейнера
-        run: docker run --rm -v ${{ github.workspace }}:/app my-latex-builder
+      # Шаг 4: Запускаем контейнер и монтируем рабочую директорию
+      - name: Run LaTeX build
+        run: docker run --rm -v ${{ github.workspace }}:/app latex-builder
 
-      - name: Upload CV. Evgeny Baulin. Programmer Analyst.pdf artifact
+      # Шаг 5: Загружаем собранные PDF как артефакты
+      - name: Upload PDFs
         uses: actions/upload-artifact@v3
         with:
-          name: CV-Programmer-Analyst
-          path: './CV. Evgeny Baulin. Programmer Analyst.pdf'
-
-      - name: Upload CV. Evgeny Baulin. Full Stack Developer.pdf artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: CV-Full-Stack-developer
-          path: './CV. Evgeny Baulin. Full Stack Developer.pdf'
+          name: PDFs
+          path: output/*.pdf  # Путь к сгенерированным PDF
