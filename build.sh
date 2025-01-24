@@ -18,8 +18,8 @@ pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Pro
 pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Programmer_Analyst.tex"
 
 # Переименовываем PDF согласно требованию
-mv "output/CV_Evgeny_Baulin_Full_Stack_Developer.pdf" "output/CV. Evgeny Baulin. Full Stack Developer.pdf"
-mv "output/CV_Evgeny_Baulin_Programmer_Analyst.pdf" "output/CV. Evgeny Baulin. Programmer Analyst.pdf"
+mv "CV_Evgeny_Baulin_Full_Stack_Developer.pdf" "CV. Evgeny Baulin. Full Stack Developer.pdf"
+mv "CV_Evgeny_Baulin_Programmer_Analyst.pdf" "CV. Evgeny Baulin. Programmer Analyst.pdf"
 
 rm output/*.aux output/*.log output/*.out
 

@@ -1,38 +1,31 @@
-name: Build LaTeX PDF
+name: Build PDFs
 
 on:
   push:
     branches:
-      - main  # Запускать только для ветки main
-  pull_request:
-    branches:
-      - main  # Также запускать для PR в main
+      - main
 
 jobs:
   build:
-    name: Build PDFs
     runs-on: ubuntu-latest
-
     steps:
-      # Шаг 1: Клонируем репозиторий
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      # Шаг 2: Устанавливаем Docker (если ещё не установлен)
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2
-
-      # Шаг 3: Собираем Docker-образ
       - name: Build Docker image
-        run: docker build -t latex-builder -f Dockerfile .
+        run: docker build -t my-cv-builder -f Dockerfile .
 
-      # Шаг 4: Запускаем контейнер и монтируем рабочую директорию
-      - name: Run LaTeX build
-        run: docker run --rm -v ${{ github.workspace }}:/app latex-builder
+      - name: Run Docker container
+        run: docker run --name cv-builder-temp my-cv-builder
 
-      # Шаг 5: Загружаем собранные PDF как артефакты
-      - name: Upload PDFs
+      - name: Copy output files
+        run: docker cp cv-builder-temp:/app/output ./output
+
+      - name: Upload PDFs as artifact
         uses: actions/upload-artifact@v3
         with:
           name: PDFs
-          path: output/*.pdf  # Путь к сгенерированным PDF
+          path: output/*.pdf
+
+      - name: Cleanup Docker container
+        run: docker rm cv-builder-temp
