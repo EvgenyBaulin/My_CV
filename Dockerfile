@@ -1,7 +1,8 @@
-FROM texlive/texlive:latest
+FROM blang/latex:latest
+LABEL authors="evgenybaulin"
 
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    pdftk \
-    && pip install PyPDF2
+COPY . /usr/src/app
+
+WORKDIR /usr/src/app
+
+CMD latexmk -pdf CV_Evgeny_Baulin_Full_Stack_Developer.tex && latexmk -pdf CV_Evgeny_Baulin_Programmer_Analyst.tex
