@@ -24,7 +24,7 @@ jobs:
 
       # Шаг 3: Собираем Docker-образ
       - name: Build Docker image
-        run: docker build -t latex-builder -f docker/Dockerfile .
+        run: docker build -t latex-builder -f Dockerfile .
 
       # Шаг 4: Запускаем контейнер и монтируем рабочую директорию
       - name: Run LaTeX build
