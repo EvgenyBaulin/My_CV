@@ -1,10 +1,7 @@
-name: Build CV
+name: Build LaTeX and Split PDF
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
@@ -16,26 +13,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up TeX Live
-        uses: dante-ev/latex-action@v2
-        with:
-          root_file: main.tex
-          latexmk_flavor: latexmk
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
 
-      - name: Install pdftk
-        run: sudo apt-get update && sudo apt-get install -y pdftk
-
-      - name: Split PDF into two parts
+      - name: Build LaTeX
         run: |
-          TOTAL_PAGES=$(pdftk out/main.pdf dump_data | grep NumberOfPages | awk '{print $2}')
-          HALFWAY=$((TOTAL_PAGES / 2))
-          pdftk "CV. Evgeny Baulin. Backend Developer.pdf" cat 1-${HALFWAY} output part1.pdf
-          pdftk "CV. Evgeny Baulin. Programmer Analyst.pdf" cat $((HALFWAY + 1))-end output part2.pdf
+          docker run --rm \
+            -v ${{ github.workspace }}:/workdir \
+            -w /workdir \
+            texlive/texlive \
+            pdflatex main.tex
 
-      - name: Upload split PDFs
+      - name: Split PDF
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/workdir \
+            -w /workdir \
+            python:3.9 \
+            python split_pdf.py
+
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: split-pdfs
+          name: PDFs
           path: |
-            "CV. Evgeny Baulin. Backend Developer.pdf"
-            "CV. Evgeny Baulin. Programmer Analyst.pdf"
+            CV. Evgeny Baulin. Backend Developer.pdf
+            CV. Evgeny Baulin. Programmer Analyst.pdf
