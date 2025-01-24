@@ -16,16 +16,18 @@ jobs:
       - name: Setup LaTeX
         uses: xu-cheng/latex-action@3.2.0
         with:
-          root_file: CV_Evgeny_Baulin_Full_Stack_Developer.tex  # Указываем главный файл .tex
-          latexmk: true
-          output-dir: ./output
+          root_file: CV_Evgeny_Baulin_Full_Stack_Developer.tex
+          texlive_version: '2020'
+          working_directory: ./  # Указываем рабочую директорию
 
-      - name: Build second CV PDF
+      - name: Build second CV PDF using pdflatex
         run: |
-          latexmk -pdf CV_Evgeny_Baulin_Programmer_Analyst.tex
+          pdflatex CV_Evgeny_Baulin_Programmer_Analyst.tex
+          pdflatex CV_Evgeny_Baulin_Full_Stack_Developer.tex
 
       - name: Upload PDFs as artifacts
         uses: actions/upload-artifact@v3
         with:
           name: CVs
-          path: ./output/*.pdf
+          path: ./CV_Evgeny_Baulin_Full_Stack_Developer.pdf
+          path: ./CV_Evgeny_Baulin_Programmer_Analyst.pdf
