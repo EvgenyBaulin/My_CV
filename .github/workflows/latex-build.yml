@@ -1,0 +1,41 @@
+name: Build CV
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up TeX Live
+        uses: dante-ev/latex-action@v2
+        with:
+          root_file: main.tex
+          latexmk_flavor: latexmk
+
+      - name: Install pdftk
+        run: sudo apt-get update && sudo apt-get install -y pdftk
+
+      - name: Split PDF into two parts
+        run: |
+          TOTAL_PAGES=$(pdftk out/main.pdf dump_data | grep NumberOfPages | awk '{print $2}')
+          HALFWAY=$((TOTAL_PAGES / 2))
+          pdftk "CV. Evgeny Baulin. Backend Developer.pdf" cat 1-${HALFWAY} output part1.pdf
+          pdftk "CV. Evgeny Baulin. Programmer Analyst.pdf" cat $((HALFWAY + 1))-end output part2.pdf
+
+      - name: Upload split PDFs
+        uses: actions/upload-artifact@v3
+        with:
+          name: split-pdfs
+          path: |
+            "CV. Evgeny Baulin. Backend Developer.pdf"
+            "CV. Evgeny Baulin. Programmer Analyst.pdf"
