@@ -14,12 +14,12 @@ pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Ful
 pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Full_Stack_Developer.tex"
 
 # Собираем Programmer Analyst
-pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Programmer_Analyst.tex"
+pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Product_Analyst.tex"
 pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Programmer_Analyst.tex"
 
 # Переименовываем PDF согласно требованию
 mv "output/CV_Evgeny_Baulin_Full_Stack_Developer.pdf" "output/CV. Evgeny Baulin. Full Stack Developer.pdf"
-mv "output/CV_Evgeny_Baulin_Programmer_Analyst.pdf" "output/CV. Evgeny Baulin. Programmer Analyst.pdf"
+mv "output/CV_Evgeny_Baulin_Product_Analyst.pdf" "output/CV. Evgeny Baulin. Product Analyst.pdf"
 
 rm output/*.aux output/*.log output/*.out
 
