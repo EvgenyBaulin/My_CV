@@ -1,36 +1,18 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-echo "Скрипт build.sh начал выполнение"
-pwd
-ls
-
-# Создаём папку для выходных файлов
+echo "build.sh: старт"
 mkdir -p output
-echo "Папка output создана"
 
-# Собираем Full Stack Developer
-pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Full_Stack_Developer.tex"
-pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Full_Stack_Developer.tex"
+# Компилируем каждый .tex два раза
+for name in \
+  CV_Evgeny_Baulin_Full_Stack_Developer \
+  CV_Evgeny_Baulin_Programmer_Analyst \
+  CV_Evgeny_Baulin_Eng \
+  CV_Evgeny_Baulin_Rus
+do
+  pdflatex -interaction=nonstopmode -output-directory=output "$name.tex"
+  pdflatex -interaction=nonstopmode -output-directory=output "$name.tex"
+done
 
-# Собираем Programmer Analyst
-pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Programmer_Analyst.tex"
-pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Programmer_Analyst.tex"
-
-# Собираем Programmer Analyst
-pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Eng.tex"
-pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Eng.tex"
-
-# Собираем Programmer Analyst
-pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Rus.tex"
-pdflatex -interaction=nonstopmode -output-directory=output "CV_Evgeny_Baulin_Rus.tex"
-
-# Переименовываем PDF согласно требованию
-mv "output/CV_Evgeny_Baulin_Full_Stack_Developer.pdf" "CV. Evgeny Baulin. Full Stack Developer.pdf"
-mv "output/CV_Evgeny_Baulin_Programmer_Analyst.pdf" "CV. Evgeny Baulin. Programmer Analyst.pdf"
-mv "output/CV_Evgeny_Baulin_Eng.pdf" "CV Evgeny Baulin.pdf"
-mv "output/CV_Evgeny_Baulin_Rus.pdf" "Резюме Евгений Баулин.pdf"
-
-rm -rf output
-
-echo "Сборка завершена"
+echo "build.sh: готово (PDF в ./output)"

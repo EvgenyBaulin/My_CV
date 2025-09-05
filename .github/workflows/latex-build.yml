@@ -20,12 +20,12 @@ jobs:
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2  # Установка Docker
 
-      - name: Run the LaTeX build script
+      - name: Run
         run: |
-          chmod +x run.sh  # Делаем run.sh исполняемым
-          ./run.sh  # Запуск run.sh
+          chmod +x run.sh build.sh
+          ./run.sh
 
-      - name: Push generated PDFs to repository
+      - name: Commit PDFs
         uses: EndBug/add-and-commit@v9
         with:
           author_name: 'GitHub Actions. Evgeny Baulin'
@@ -34,3 +34,5 @@ jobs:
           add: |
             "CV. Evgeny Baulin. Full Stack Developer.pdf"
             "CV. Evgeny Baulin. Programmer Analyst.pdf"
+            "CV Evgeny Baulin.pdf"
+            "Резюме Евгений Баулин.pdf"
