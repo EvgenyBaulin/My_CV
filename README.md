@@ -34,6 +34,8 @@ You can download the two precompiled CVs in PDF format, ready for use:
 
 - [CV. Evgeny Baulin. Full Stack Developer.pdf](CV.%20Evgeny%20Baulin.%20Full%20Stack%20Developer.pdf)
 - [CV. Evgeny Baulin. Programmer Analyst.pdf](CV.%20Evgeny%20Baulin.%20Programmer%20Analyst.pdf)
+- [CV. Evgeny Baulin.pdf](CV%20Evgeny%20Baulin.pdf)
+- [Резюме Евгений Баулин](Резюме%20Евгений%20Баулин.pdf)
 
 These files are available for download and contain up-to-date information about professional
 experience
@@ -76,5 +78,7 @@ experience
 
 - [CV. Evgeny Baulin. Full Stack Developer.pdf](CV.%20Evgeny%20Baulin.%20Full%20Stack%20Developer.pdf)
 - [CV. Evgeny Baulin. Programmer Analyst.pdf](CV.%20Evgeny%20Baulin.%20Programmer%20Analyst.pdf)
+- [CV. Evgeny Baulin.pdf](CV%20Evgeny%20Baulin.pdf)
+- [Резюме Евгений Баулин](Резюме%20Евгений%20Баулин.pdf)
 
 Эти файлы доступны для скачивания и содержат актуальную информацию о профессиональном опыте
